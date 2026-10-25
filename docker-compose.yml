@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voltedge-web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongo:27017/voltedge
+      - NEXT_PUBLIC_BASE_URL=http://localhost:3000
+    depends_on:
+      - mongo
+    networks:
+      - voltedge-network
+
+  mongo:
+    image: mongo:7-jammy
+    container_name: voltedge-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=voltedge
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - voltedge-network
+
+networks:
+  voltedge-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
