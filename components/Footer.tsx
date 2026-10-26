@@ -317,6 +317,7 @@ export default function Footer() {
                 {item}
               </a>
             ))}
+            <span>Designed & Developed by Harsh Sinha </span>
           </div>
         </div>
       </div>
